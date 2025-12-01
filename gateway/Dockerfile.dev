@@ -1,0 +1,63 @@
+# The Dockerfile for the production environment
+
+#################
+# Base stage
+#################
+FROM node:25.2-alpine3.22 AS base
+
+# Working directory 
+WORKDIR /app
+
+# Non-root user for better security
+RUN addgroup -g 1001 -S nodedev && \
+    adduser -S nodedev -u 1001 -G nodedev && \
+    chown -R nodedev:nodedev /app
+
+
+#################
+# Dependency installation stage
+#################
+FROM base AS dependencies
+
+# Set proper ownership
+RUN chown -R nodedev:nodedev /app
+
+# Copying package files
+COPY --chown=nodedev:nodedev package*.json ./
+
+# Installing production dependencies
+RUN npm install --no-audit --no-fund
+
+# Clean cache
+RUN npm cache clean --force
+
+#################
+# Development stage
+#################
+FROM node:25.2-alpine3.22 AS development
+
+# Setting ENV variable
+ENV NODE_ENV=development
+
+# Working directory 
+WORKDIR /app
+
+# Non-root user for better security
+RUN addgroup -g 1001 -S nodedev && \
+    adduser -S nodedev -u 1001 -G nodedev && \
+    chown -R nodedev:nodedev /app
+
+
+# Copy production dependencies
+COPY --from=dependencies --chown=nodedev:nodedev /app/node_modules ./node_modules
+COPY --from=dependencies --chown=nodedev:nodedev /app/package*.json ./
+# Copy code from repo
+COPY --chown=nodedev:nodedev /src ./src
+
+# Switch to non-root user for security
+USER nodedev
+
+# Expose port
+EXPOSE 5921
+
+CMD [ "npm", "run", "dev" ]
