@@ -7,8 +7,8 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-      - PORT=${BACKEND_PORT}
-      - MONGO_URI=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongodb:27017/${MONGO_DATABASE}?authSource=admin
+      - BACKEND_PORT=${BACKEND_PORT}
+      - MONGO_URI=${MONGO_URI}
       - MONGO_DATABASE=${MONGO_DATABASE}
     depends_on:
       mongo:
