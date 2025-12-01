@@ -1,13 +1,13 @@
 # Hackathon Challenge
 
-Build a microservices-based simple e-commerce backend system using Docker and containerization best practices.
+Your challenge is to take this simple e-commerce backend and turn it into a fully containerized microservices setup using Docker and solid DevOps practices.
 
 ## Problem Statement
 
-You need to create a backend system with the following components:
-- A backend service that handles product management
-- A gateway service that routes API requests
-- A database service for data persistence
+The backend setup consisting of:
+
+- A service for managing products
+- A gateway that forwards API requests
 
 The system must be containerized, secure, optimized, and maintain data persistence across container restarts.
 
@@ -88,9 +88,10 @@ NODE_ENV=
 
 - Separate Dev and Prod configs
 - Data Persistence
-- Security 
+- Follow security basics (limit network exposure, sanitize input) 
 - Docker Image Optimization
 - Makefile CLI Commands for smooth dev and prod deploy experience (TRY TO COMPLETE THE COMMANDS COMMENTED IN THE Makefile)
+
 **ADD WHAT EVER BEST PRACTICES YOU KNOW**
 
 ## Testing
@@ -129,6 +130,8 @@ Verify backend is not directly accessible (should fail or be blocked):
 ```bash
 curl http://localhost:3847/api/products
 ```
+
+
 
 Good luck!
 
