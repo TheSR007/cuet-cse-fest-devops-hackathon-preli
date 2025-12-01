@@ -1,0 +1,19 @@
+# Development Stage with Hot-Reloading
+FROM node:20-slim
+
+WORKDIR /app
+
+# Copy dependency files
+COPY package*.json ./
+
+# Install all dependencies
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Expose backend port
+EXPOSE 3847
+
+# Run development server with file watching
+CMD ["npm", "run", "dev"]
